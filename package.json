@@ -27,7 +27,7 @@
     "accounting": "git+https://github.com/openexchangerates/accounting.js.git",
     "app-root-path": "^3.0.0",
     "async": "^3.2.0",
-    "auth0": "^2.24.0",
+    "auth0": "^2.27.1",
     "aws-sdk": "^2.673.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
