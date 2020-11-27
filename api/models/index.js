@@ -13,6 +13,7 @@ const Promise = require('bluebird');
 const winston = require('../../library/winston');
 const _ = require('lodash');
 const dynamoose = require('dynamoose');
+const moment = require('moment-timezone');
 
 const sqlModels = function() {
 	const db = {},
@@ -61,7 +62,7 @@ const sqlModels = function() {
 				username : config.database.rdbms.username,
 				password : config.database.rdbms.password,
 				database : config.database.rdbms.database,
-				timezone : config.application.defaultTimezone,
+				timezone : moment.tz(config.application.defaultTimezone).format("Z"),
 				protocol : 'tcp',
 				typeValidation : true,
 				operatorsAliases : operatorsAliases
@@ -70,6 +71,8 @@ const sqlModels = function() {
 	if (!config.database.rdbms.enabled) {
 		return {};
 	}
+	
+	/*Sequelize.cls = AWSXRay.getNamespace();*/
 	
 	const sequelize = new Sequelize(dbOptions);
 	
@@ -171,9 +174,9 @@ const dynamodbModel = function() {
 				region : config.database.dynamodb.region,
 				options : {
 					create : config.database.dynamodb.autoCreateTable,
-					update : true,
-					waitForActive : true,
-					waitForActiveTimeout : 180000,
+					update : config.database.dynamodb.update,
+					waitForActive : config.database.dynamodb.waitForActive,
+					expires : null,
 					streamOptions : {
 						enabled : config.database.dynamodb.streamOptions,
 						type : undefined
@@ -187,13 +190,15 @@ const dynamodbModel = function() {
 		return {};
 	}
 	
-	dynamoose.AWS.config.update({
+	dynamoose.logger.providers.set(winston);
+	
+	dynamoose.aws.sdk.config.update({
 		accessKeyId : config.amazon.accessKeyId,
 		secretAccessKey : config.amazon.secretAccessKey,
 		region : dynamoSettings.region
 	});
 	
-	dynamoose.setDefaults({
+	dynamoose.model.defaults.set({
 		create : config.database.dynamodb.autoCreateTable,
 		prefix : config.database.dynamodb.prefix,
 		suffix : config.database.dynamodb.suffix
@@ -206,7 +211,7 @@ const dynamodbModel = function() {
 				filename = _.trim(file.replace(".js", ""), ""),
 				model = schema(dynamoose);
 		
-		db[filename] = dynamoose.model(model.name, model.schema, dynamoSettings.options);
+		db[filename] = dynamoose.model(model.name, model.schema, _.assignIn(dynamoSettings.options, model.options));
 	});
 	
 	db.dynamoose = dynamoose;

@@ -37,6 +37,14 @@ const production = (env) => {
 				enabled : false,
 				region : "us-east-1",
 				autoCreateTable : true,
+				update : true,
+				waitForActive : {
+					enabled : true,
+					check : {
+						timeout : 180000,
+						frequency : 1000
+					}
+				},
 				encryption : false,
 				streamOptions : false,
 				prefix : "",
