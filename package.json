@@ -38,7 +38,7 @@
     "connect-redis": "^3.4.2",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
-    "dynamoose": "^2.4.1",
+    "dynamoose": "^2.7.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
