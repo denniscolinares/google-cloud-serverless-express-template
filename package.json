@@ -49,7 +49,7 @@
     "ioredis": "^4.19.2",
     "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "memcached": "^2.2.2",
     "module-alias": "^2.2.1",
     "moment": "^2.29.1",
