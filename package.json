@@ -40,7 +40,7 @@
     "dotenv": "^8.2.0",
     "dynamoose": "^2.4.1",
     "esm": "^3.2.25",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.1",
     "firebase-admin": "^8.13.0",
     "fs": "0.0.1-security",
